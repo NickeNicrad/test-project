@@ -4,21 +4,21 @@ import * as TaskManager from 'expo-task-manager';
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Platform } from 'react-native';
 
+const BACKGROUND_NOTIFICATION_TASK = 'BACKGROUND-NOTIFICATION-TASK';
+
+TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, ({ data, error, executionInfo }) => {
+  console.log('notification in background data!');
+});
+
+Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK);
+
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
     shouldPlaySound: true,
-    shouldSetBadge: true,
+    shouldSetBadge: false,
   }),
 });
-
-const BACKGROUND_NOTIFICATION_TASK = 'BACKGROUND-NOTIFICATION-TASK';
-
-TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, ({ data, error, executionInfo }) => {
-  console.log('notification in background data!', data);
-});
-
-Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK);
 
 export default function App() {
   const [expoPushToken, setExpoPushToken] = useState('');
@@ -41,14 +41,13 @@ export default function App() {
       if(response) return console.log(response);
     });
 
-    const displayNotification = setInterval(loadNotification, 5000);
+    loadNotification();
 
     return () => {
-      clearInterval(displayNotification);
       Notifications.removeNotificationSubscription(notificationListener.current);
       Notifications.removeNotificationSubscription(responseListener.current);
     };
-  }, []);
+  }, [loadNotification]);
 
   return (
     <View>
@@ -63,7 +62,7 @@ async function schedulePushNotification() {
       body: "This is Darcin's Notification for the React Native Test Project",
       data: {"content-available": 1},
     },
-    trigger: {seconds: 5},
+    trigger: {seconds: 10},
     repeats: true,
   });
 }
