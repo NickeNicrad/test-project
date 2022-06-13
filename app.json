@@ -1,10 +1,41 @@
 {
   "expo": {
-    "name": "test-project",
+    "name": "Test Project",
     "slug": "test-project",
     "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icons/ic_launcher.png",
     "assetBundlePatterns": [
       "**/*"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.nickenicrad.test",
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "remote-notification",
+          "location",
+          "fetch"
+        ]
+      }
+    },
+    "android": {
+      "package": "com.nickenicrad.test",
+      "versionCode": 1,
+      "useNextNotificationsApi": true
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icons/ic_launcher.png",
+          "color": "#fff",
+          "sounds": [
+            "./assets/sounds/bubble-pop-up.wav"
+          ],
+          "iosDisplayInForeground": true
+        }
+      ]
     ]
   }
 }
