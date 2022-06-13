@@ -16,7 +16,7 @@ Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
     shouldPlaySound: true,
-    shouldSetBadge: false,
+    shouldSetBadge: true,
   }),
 });
 
@@ -47,7 +47,7 @@ export default function App() {
       Notifications.removeNotificationSubscription(notificationListener.current);
       Notifications.removeNotificationSubscription(responseListener.current);
     };
-  }, [loadNotification]);
+  }, []);
 
   return (
     <View>
@@ -62,8 +62,7 @@ async function schedulePushNotification() {
       body: "This is Darcin's Notification for the React Native Test Project",
       data: {"content-available": 1},
     },
-    trigger: {seconds: 10},
-    repeats: true,
+    trigger: {seconds: 15, repeats: true}
   });
 }
 
