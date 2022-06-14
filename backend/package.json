@@ -1,0 +1,19 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Darcin Kwamiso's test project server",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon run index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nicke Nicrad (Darcin)",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "mongoose": "^6.3.8",
+    "node-fetch": "2.0",
+    "nodemon": "^2.0.16"
+  }
+}
