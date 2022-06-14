@@ -1,16 +1,7 @@
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
-import * as TaskManager from 'expo-task-manager';
 import React, { useState, useEffect, useRef } from 'react';
 import {View, Platform} from 'react-native';
-
-const BACKGROUND_NOTIFICATION = 'BACKGROUND-NOTIFICATION';
-
-TaskManager.defineTask(BACKGROUND_NOTIFICATION, ({ data, error, executionInfo }) => {
-  console.log('notification in background data!');
-});
-
-Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION);
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -21,7 +12,6 @@ Notifications.setNotificationHandler({
 });
 
 export default function App() {
-  // const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
