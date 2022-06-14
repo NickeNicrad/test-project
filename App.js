@@ -2,15 +2,15 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import * as TaskManager from 'expo-task-manager';
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Platform } from 'react-native';
+import {View, Platform} from 'react-native';
 
-const BACKGROUND_NOTIFICATION_TASK = 'BACKGROUND-NOTIFICATION-TASK';
+const BACKGROUND_NOTIFICATION = 'BACKGROUND-NOTIFICATION';
 
-TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, ({ data, error, executionInfo }) => {
+TaskManager.defineTask(BACKGROUND_NOTIFICATION, ({ data, error, executionInfo }) => {
   console.log('notification in background data!');
 });
 
-Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK);
+Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION);
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -21,13 +21,13 @@ Notifications.setNotificationHandler({
 });
 
 export default function App() {
-  const [expoPushToken, setExpoPushToken] = useState('');
+  // const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
 
-  const loadNotification = async () => {
-    await schedulePushNotification();
+  const setExpoPushToken = async (expoPushToken) => {
+    await sendPushNotification(expoPushToken);
   }
 
   useEffect(() => {
@@ -41,7 +41,6 @@ export default function App() {
       if(response) return console.log(response);
     });
 
-    loadNotification();
 
     return () => {
       Notifications.removeNotificationSubscription(notificationListener.current);
@@ -55,14 +54,15 @@ export default function App() {
   );
 }
 
-async function schedulePushNotification() {
-  await Notifications.scheduleNotificationAsync({
-    content: {
-      title: "Darcin's Notification",
-      body: "This is Darcin's Notification for the React Native Test Project",
-      data: {"content-available": 1},
+async function sendPushNotification(expoPushToken) {
+  await fetch('http://192.168.43.222:5000/notification/create', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Accept-encoding': 'gzip, deflate',
+      'Content-Type': 'application/json',
     },
-    trigger: {seconds: 15, repeats: true}
+    body: JSON.stringify({expoPushToken}),
   });
 }
 
