@@ -70,4 +70,4 @@ const DB_URL = 'mongodb+srv://NickeNicrad:thenewstars03@cluster0.v6idyna.mongodb
 // connecting to a mongo database
 mongoose.connect(DB_URL, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => app.listen(PORT, () => console.log('database successfully connected\nserver runnig on port: ', PORT)))
-    .catch((err) => console.log("database not connected! ", err.message));
+    .catch((err) => console.log("database not connected! ", err));
